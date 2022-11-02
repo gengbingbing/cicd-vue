@@ -1,7 +1,7 @@
 <!--
  * @Author: bingbing.geng
  * @Date: 2022-11-02 09:56:20
- * @LastEditTime: 2022-11-02 10:10:40
+ * @LastEditTime: 2022-11-02 10:11:58
  * @FilePath: \cicd-vue\README.md
 -->
 # Vue 3 + Vite
@@ -12,4 +12,4 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
-![image-20221102100810102](https://github.com/gengbingbing/cicd-vue/tree/main/images/image-20221102100810102.png)
+![image-20221102100810102](https://raw.githubusercontent.com/gengbingbing/cicd-vue/main/images/image-20221102100810102.png)
