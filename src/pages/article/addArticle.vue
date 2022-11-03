@@ -1,7 +1,7 @@
 <!--
  * @Author: bingbing.geng
  * @Date: 2022-11-03 08:41:04
- * @LastEditTime: 2022-11-03 14:24:31
+ * @LastEditTime: 2022-11-03 14:38:08
  * @FilePath: \cicd-vue\src\pages\article\addArticle.vue
 -->
 <template>
@@ -46,7 +46,7 @@ import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { postSave, getArticleById } from '@/api/article';
+import { postSave, getArticleById, postUpdate } from '@/api/article';
 import { ElMessage } from 'element-plus';
 
 const router=useRouter()
@@ -89,7 +89,9 @@ const submit = async () => {
   console.log(title.value, valueHtml.value)
   const date = new Date()
   const time = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+  const id = router.currentRoute._value.query.id
   const params = {
+    id: id,
     author: author.value,
     title: title.value,
     content: valueHtml.value,
@@ -99,7 +101,12 @@ const submit = async () => {
     createTime: time,
     updataTime: time,
   }
-  const res = await postSave(params)
+  let res = {}
+  if(router.currentRoute._value.query.id) {
+    res = await postUpdate(params)
+  } else {
+    res = await postSave(params)
+  }
   if(res.state) {
     ElMessage.success('保存成功')
     router.go(-1)
