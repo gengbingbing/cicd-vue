@@ -1,7 +1,7 @@
 <!--
  * @Author: bingbing.geng
  * @Date: 2022-11-03 08:40:34
- * @LastEditTime: 2022-11-03 10:08:51
+ * @LastEditTime: 2022-11-03 11:34:42
  * @FilePath: \cicd-vue\src\pages\article\articleList.vue
 -->
 <template>
@@ -18,13 +18,13 @@
       >
         <template #default="scope">
           <div v-if="item.prop === 'categoryId'">{{ categoryMap[scope.row[item.prop]] }}</div>
-          <div v-else-if="item.prop === 'title'" class="link" @click="openDetail">{{ scope.row[item.prop] }}</div>
+          <div v-else-if="item.prop === 'title'" class="link" @click="openDetail(scope.row)">{{ scope.row[item.prop] }}</div>
           <div v-else>{{ scope.row[item.prop] }}</div>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="120">
         <template #default="scope">
-          <el-button type="primary" link @click="handleDelete(scope.row)">编辑</el-button>
+          <el-button type="primary" link @click="handleEdit(scope.row)">编辑</el-button>
           <el-popconfirm title="确认删除该文章?" @confirm="handleDelete(scope.row)">
             <template #reference>
               <el-button type="danger" link>删除</el-button>
@@ -36,7 +36,7 @@
     <el-pagination
       class="pagination"
       background
-      layout="sizes, prev, pager, next"
+      layout="prev, pager, next, sizes, total"
       :total="searchParams.total" 
       :currentPage="searchParams.pageNo"
       :page-size="searchParams.pageSize"
@@ -44,24 +44,72 @@
       @size-change="changeSize"
       @current-change="changeCurrent"
     />
+
+    <el-drawer
+      class="drawer"
+      v-model="visable"
+      :title="articleDetail.title"
+      :before-close="handleClose"
+      size="100%"
+      direction="rtl"
+    >
+      <div class="base-info">
+        <div>作者：{{ articleDetail.author }}</div>
+        <div>时间：{{ articleDetail.time }}</div>
+      </div>
+      <div>
+        {{ articleDetail.content }}
+      </div>
+    </el-drawer>
   </div>
 </template>
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
-import { getList, postDelete } from '@/api/article';
+import { getList, postDelete, getArticleById } from '@/api/article';
 import { ElMessage } from 'element-plus';
 
-const handleAdd = () => {
+const visable = ref(false)
+const articleDetail = reactive({
+  title: '',
+  content: '',
+  time: '',
+  author: '',
+  link: '',
+})
+const handleClose = () => {
+  articleDetail.title = ''
+  articleDetail.content = ''
+  articleDetail.time = ''
+  articleDetail.author = ''
+  articleDetail.link = ''
+  visable.value = false
+}
 
+const getArticleData = async (id) => {
+  try {
+    const res = await getArticleById(id)
+    articleDetail.title = res.title
+    articleDetail.content = res.content
+    articleDetail.time = res.updataTime
+    articleDetail.author = res.author
+    articleDetail.link = res.link[0]
+    visable.value = true
+  } catch (e) {
+    ElMessage.error('文章查询失败')
+  }
+}
+
+const handleAdd = () => {
+  ElMessage.info('添加文章')
 }
 
 const handleEdit = () => {
-
+  ElMessage.info('编辑文章')
 }
 
-const openDetail = () => {
-
+const openDetail = (row) => {
+  getArticleData(row._id)
 }
 
 const handleDelete = async (rowData) => {
@@ -99,12 +147,12 @@ const columns = reactive([
   },
   {
     prop: 'title',
-    label: '标题',
+    label: '文章标题',
     width: '180',
   },
   {
     prop: 'categoryId',
-    label: '分类',
+    label: '文章分类',
     width: '180',
   },
   {
@@ -114,7 +162,7 @@ const columns = reactive([
   },
   {
     prop: 'updataTime',
-    label: '时间',
+    label: '发布时间',
     width: '180',
   }
 ])
@@ -142,7 +190,7 @@ onMounted(() => {
 
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .articleList {
   padding: 24px;
 }
@@ -164,5 +212,20 @@ onMounted(() => {
 .link {
   color: #1E80EC;
   cursor: pointer;
+}
+
+.base-info {
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  line-height: 50px;
+  border-bottom: 1px solid #abaeb4;
+  color: #abaeb4;
+}
+/deep/ .el-drawer__title {
+  text-align: center;
+  color: #000000;
+  font-weight: bold;
+  font-size: 32px;
 }
 </style>
