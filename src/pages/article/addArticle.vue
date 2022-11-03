@@ -1,12 +1,12 @@
 <!--
  * @Author: bingbing.geng
  * @Date: 2022-11-03 08:41:04
- * @LastEditTime: 2022-11-03 14:38:08
+ * @LastEditTime: 2022-11-03 14:47:06
  * @FilePath: \cicd-vue\src\pages\article\addArticle.vue
 -->
 <template>
   <div class="add-article">
-    <h1>添加文章</h1>
+    <h1>{{ ids ? '编辑文章' : '新增文章' }}</h1>
     <div style="border: 1px solid #ccc">
       <el-input class="title" v-model="title" placeholder="文章标题" clearable />
       <el-input class="title author" v-model="author" placeholder="作者" clearable />
@@ -54,6 +54,7 @@ const router=useRouter()
 const title = ref('')
 const author = ref('')
 const categoryId = ref('')
+const ids = ref('')
 
 const goBack = () => {
   router.go(-1)
@@ -129,6 +130,8 @@ const valueHtml = ref('')
 // 模拟 ajax 异步获取内容
 onMounted(async () => {
     const id = router.currentRoute._value.query.id
+
+    ids.value = id
     
     const res = await getArticleById(id)
     title.value = res.title
