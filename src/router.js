@@ -1,7 +1,7 @@
 /*
  * @Author: bingbing.geng
  * @Date: 2022-11-02 09:56:20
- * @LastEditTime: 2022-11-03 08:58:24
+ * @LastEditTime: 2022-11-03 13:10:51
  * @FilePath: \cicd-vue\src\router.js
  */
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -20,6 +20,14 @@ const router = createRouter({
     {
       path: '/articleList',
       component: () => import('@/pages/article/articleList.vue'),
+      name: 'articleList',
+      meta: {
+        menu: false
+      }
+    },
+    {
+      path: '/addArticle',
+      component: () => import('@/pages/article/addArticle.vue'),
       name: 'article',
       meta: {
         menu: false

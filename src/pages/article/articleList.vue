@@ -1,7 +1,7 @@
 <!--
  * @Author: bingbing.geng
  * @Date: 2022-11-03 08:40:34
- * @LastEditTime: 2022-11-03 11:34:42
+ * @LastEditTime: 2022-11-03 14:25:39
  * @FilePath: \cicd-vue\src\pages\article\articleList.vue
 -->
 <template>
@@ -14,6 +14,7 @@
         :key="item.prop" 
         :prop="item.prop" 
         :label="item.label" 
+        :width="item.width"
         show-overflow-tooltip
       >
         <template #default="scope">
@@ -57,17 +58,18 @@
         <div>作者：{{ articleDetail.author }}</div>
         <div>时间：{{ articleDetail.time }}</div>
       </div>
-      <div>
-        {{ articleDetail.content }}
-      </div>
+      <div v-html="articleDetail.content"></div>
     </el-drawer>
   </div>
 </template>
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router'
 import { getList, postDelete, getArticleById } from '@/api/article';
 import { ElMessage } from 'element-plus';
+
+const router = useRouter()
 
 const visable = ref(false)
 const articleDetail = reactive({
@@ -101,10 +103,17 @@ const getArticleData = async (id) => {
 }
 
 const handleAdd = () => {
+  router.push('/addArticle')
   ElMessage.info('添加文章')
 }
 
-const handleEdit = () => {
+const handleEdit = (row) => {
+  router.push({
+    path: '/addArticle',
+    query: {
+      id: row._id,
+    }
+  })
   ElMessage.info('编辑文章')
 }
 
@@ -143,27 +152,26 @@ const columns = reactive([
   {
     prop: '_id',
     label: 'ID',
-    width: '180',
+    width: '220',
   },
   {
     prop: 'title',
     label: '文章标题',
-    width: '180',
   },
   {
     prop: 'categoryId',
     label: '文章分类',
-    width: '180',
+    width: '120',
   },
   {
     prop: 'author',
     label: '作者',
-    width: '180',
+    width: '120',
   },
   {
     prop: 'updataTime',
     label: '发布时间',
-    width: '180',
+    width: '220',
   }
 ])
 
