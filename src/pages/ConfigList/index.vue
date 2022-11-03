@@ -33,23 +33,18 @@
     </el-table>
 
     <el-pagination
-        class="mt-[16px]"
-        v-model:currentPage="searchParams.pageNo"
-        v-model:page-size="searchParams.pageSize"
-        :page-sizes="[10, 20, 30]"
-        layout="sizes, prev, pager, next"
-        :total="searchParams.total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
+      class="mt-[16px]"
+      v-model:currentPage="searchParams.pageNo"
+      v-model:page-size="searchParams.pageSize"
+      :page-sizes="[10, 20, 30]"
+      layout="sizes, prev, pager, next"
+      :total="searchParams.total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
     />
   </el-card>
 
-  <el-dialog
-      v-model="dialogVisible"
-      :title="dialogTitle"
-      width="50%"
-      align-center
-  >
+  <el-dialog v-model="dialogVisible" :title="dialogTitle" width="50%" align-center>
     <el-form :model="formData">
       <el-form-item label="项目名称" prop="projectName">
         <el-input v-model="formData.projectName" placeholder="输入项目名称" />
@@ -77,7 +72,7 @@
 </template>
 
 <script setup>
-import useConfigList from './useConfigList';
+import useConfigList from "./useConfigList";
 
 const {
   searchParams,
@@ -92,16 +87,15 @@ const {
   onSubmit,
   onEdit,
   onDel
-} = useConfigList()
+} = useConfigList();
 </script>
 
 <script>
-import {defineComponent} from 'vue';
+import { defineComponent } from "vue";
 export default defineComponent({
   name: "ConfigList"
-})
+});
 </script>
 
 <style scoped>
-
 </style>
