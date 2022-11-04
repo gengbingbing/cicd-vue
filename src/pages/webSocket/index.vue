@@ -1,7 +1,7 @@
 <!--
  * @Author: bingbing.geng
  * @Date: 2022-11-04 08:35:20
- * @LastEditTime: 2022-11-04 12:58:48
+ * @LastEditTime: 2022-11-04 13:19:20
  * @FilePath: \cicd-vue\src\pages\webSocket\index.vue
 -->
 <template>
@@ -114,7 +114,9 @@ const sendMessage = () => {
     })
   
     form.message = ''
-    document.querySelector('.content').scrollTop = 1000000000
+    if(document.querySelector('.content')) {
+      document.querySelector('.content').scrollTop = 1000000000
+    }
   } catch(e) {
     ElMessage.error('socket连接断开，正在重连~')
     initWebSocket()
@@ -136,12 +138,15 @@ const initWebSocket = () => {
   // 接收信息
   ws.onmessage = (event) => {
     const { content, sendId } = JSON.parse(event.data)
+    console.log(content)
     msgList.push({
       type: 1,
       userName: sendId,
       value: content
     })
-    document.querySelector('.content').scrollTop = 1000000000
+    if(document.querySelector('.content')) {
+      document.querySelector('.content').scrollTop = 1000000000
+    }
   }
 }
 
