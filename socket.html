@@ -1,0 +1,59 @@
+<!--
+ * @Author: bingbing.geng
+ * @Date: 2022-11-04 08:20:43
+ * @LastEditTime: 2022-11-04 08:32:19
+ * @FilePath: \cicd-vue\socket.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+ 
+  <body>
+    用户名: <input type="text" id="userId" /> <br />
+    接收方: <input type="text" id="reciveId" /> <br />
+    发送信息: <input type="text" id="content" /><br />
+    <button onClick="send()">发送</button><br />
+    服务器返回的信息:
+    <ul id="msg-list"></ul>
+  </body>
+  <script>
+    const uid = localStorage.getItem('uid')
+    let ws
+    ws = new WebSocket('ws://localhost:3002')
+    // 连接
+    ws.onopen = (event) => {
+      ws.send(JSON.stringify({ uid }))
+    }
+    // 接收信息
+    ws.onmessage = (event) => {
+      debugger
+      const { content, sendId } = JSON.parse(event.data)
+      const list = document.getElementById('msg-list')
+      const li = document.createElement('li')
+      if (sendId) {
+        li.innerHTML = `发送者:${sendId} 内容:${content}`
+      } else {
+        li.innerHTML = `${content}`
+      }
+      list.appendChild(li)
+    }
+ 
+    const send = () => {
+      const uid = document.getElementById('userId')
+      const reciveId = document.getElementById('reciveId')
+      const content = document.getElementById('content')
+      ws.send(
+        JSON.stringify({
+          uid: uid.value,
+          reciveId: reciveId.value,
+          content: content.value
+        })
+      )
+    }
+  </script>
+</html>

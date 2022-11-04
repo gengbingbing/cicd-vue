@@ -1,7 +1,7 @@
 /*
  * @Author: bingbing.geng
  * @Date: 2022-11-02 09:56:20
- * @LastEditTime: 2022-11-03 13:10:51
+ * @LastEditTime: 2022-11-04 09:00:17
  * @FilePath: \cicd-vue\src\router.js
  */
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -29,6 +29,14 @@ const router = createRouter({
       path: '/addArticle',
       component: () => import('@/pages/article/addArticle.vue'),
       name: 'article',
+      meta: {
+        menu: false
+      }
+    },
+    {
+      path: '/webSocket',
+      component: () => import('@/pages/webSocket/index.vue'),
+      name: 'webSocket',
       meta: {
         menu: false
       }
