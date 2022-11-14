@@ -1,7 +1,7 @@
 <!--
  * @Author: bingbing.geng
  * @Date: 2022-11-03 08:40:34
- * @LastEditTime: 2022-11-03 14:25:39
+ * @LastEditTime: 2022-11-14 08:47:23
  * @FilePath: \cicd-vue\src\pages\article\articleList.vue
 -->
 <template>
@@ -64,6 +64,7 @@
 </template>
 
 <script setup>
+import { useUsersStore } from '../../store/user'
 import { onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { getList, postDelete, getArticleById } from '@/api/article';

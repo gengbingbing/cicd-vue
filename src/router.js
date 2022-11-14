@@ -1,7 +1,7 @@
 /*
  * @Author: bingbing.geng
  * @Date: 2022-11-02 09:56:20
- * @LastEditTime: 2022-11-04 09:00:17
+ * @LastEditTime: 2022-11-14 08:53:14
  * @FilePath: \cicd-vue\src\router.js
  */
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -41,10 +41,18 @@ const router = createRouter({
         menu: false
       }
     },
-    // {
-    //   path: '/:pathMatch(.*)*',
-    //   redirect: '/job'
-    // }
+    {
+      path: '/pinia',
+      component: () => import('@/pages/pinia/index.vue'),
+      name: 'pinia',
+      meta: {
+        menu: true
+      }
+    },
+    {
+      path: '/',
+      redirect: '/articleList'
+    }
   ]
 })
 
