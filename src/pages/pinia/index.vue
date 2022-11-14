@@ -1,7 +1,7 @@
 <!--
  * @Author: bingbing.geng
  * @Date: 2022-11-14 08:47:54
- * @LastEditTime: 2022-11-14 09:25:02
+ * @LastEditTime: 2022-11-14 15:39:32
  * @FilePath: \cicd-vue\src\pages\pinia\index.vue
 -->
 <template>
@@ -53,7 +53,10 @@ const handReset = () => {
 <style lang="less" scoped>
 .pinia {
   width: 100%;
+  height: 100vh;
   padding: 24px;
+  background: #000000;
+  color: aqua;
 
   h1 {
     font-size: 32px;
